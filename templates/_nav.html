@@ -1,0 +1,43 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #0A2835;">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <div class="row">
+                <div class="col">
+                    <img src="{% static 'icons/favicon.ico' %}" alt="Blabbing Blogging" height="45px">
+                </div>
+                <div class="col">
+                    <h6>
+                        Blabbing <br> Blogging
+                    </h6>
+                </div>
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto">
+
+                <a class="nav-link {% if request.path == '/' %} active {% endif %}" aria-current="page" href="/"><i class="fa fa-home"></i> Home</a>
+                
+                {% if request.user.is_authenticated %}
+                    <a class="nav-link {% if request.path == '/myblogs' %} active {% endif %}" href="/myblogs"><i class="fa fa-book"></i> My Blogs</a>
+                {% endif %}
+                
+                <a class="nav-link {% if request.path == '/blog_editor' %} active {% endif %}" href="/blog_editor"><i class="fa fa-pencil-square-o"></i> Create blog</a>
+                
+                {% if request.user.is_authenticated %}
+                    <a class="nav-link {% if request.path == '/profile' %} active {% endif %}" href="/profile"><i class="fa fa-user"></i> {{request.user}}</a>
+                    <a class="nav-link" href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
+                {% else %}
+                    <a class="nav-link {% if request.path == '/register' %} active {% endif %}" href="/register"><i class="fa fa-users"></i> Register</a>
+                    <a class="nav-link {% if request.path == '/login' %} active {% endif %}" href="/login"><i class="fa fa-sign-in"></i> Login</a>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,19 @@
+body {
+    /* background: -webkit-linear-gradient(left, #3931af, #00c6ff); */
+    /* background: -webkit-linear-gradient( #40C1FA, #0A2835); */
+    background: #0A2835;
+    /* background-color: #40C1FA; */
+    color: #0A2835;
+}
+
+.main-section {
+    padding: 3%;
+    margin-top: calc(3% + 5rem);
+    margin-bottom: 3%;
+    border-radius: 0.5rem;
+    background: #fff;
+}
+
+html{
+    scroll-behavior: smooth;
+}

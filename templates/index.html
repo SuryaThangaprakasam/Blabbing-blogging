@@ -1,0 +1,85 @@
+{% extends '_main.html' %}
+{% load static %}
+
+{% block title %}
+Blabbing | Home
+{% endblock title %}
+
+{% block body %}
+
+<section class="container main-section">
+
+    <!-- Heading Row -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2 class="mb-3">Blabbing Blogging</h2>
+            <hr style="border: 1px solid rgb(126, 126, 126);">
+            {% include '_message.html' %}
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <p class="text-center" style="font-size: larger;">At Blabla Blogging, we believe in the power of words and
+                ideas. Our platform is a vibrant space where creativity flows, stories come to life, and connections are
+                made. Whether you're here to share your thoughts, explore diverse perspectives, or showcase your
+                expertise, Blabla Blogging offers a seamless and engaging experience tailored just for you.
+                Dive into a world of insightful articles, inspiring stories, and bold ideas. Whether you're a seasoned
+                writer or just starting your blogging journey, our tools make it easy to create, share, and grow your
+                audience.
+                Join the conversation. Share your voice. Make your mark on Blabla Blogging!
+                Would you like me to refine or add any specific features of your site to this description?</p>
+        </div>
+    </div>
+
+
+
+    <!-- Blogs section -->
+    <section class="container">
+
+        <h3>Recent Blogs</h3>
+        <hr class="mb-4" style="border: 1px solid rgb(126, 126, 126);">
+
+        {% for blog in blogs %}
+        <div class="card mb-3">
+            <div class="row g-0" style="background-color: rgba(219, 219, 219, 0.5);">
+
+                <!-- Blog Image -->
+                <div class="col-md-4" style="display: flex; background-color: rgb(196, 196, 196);">
+                    <div class="my-auto d-block">
+                        <img src="{{blog.blog_img.url}}" class="img-fluid rounded-star." alt="Blog Image"
+                            style="width: 100%;">
+                    </div>
+                </div>
+
+                <!-- Blog body -->
+                <div class="col-md-8">
+                    <div class="card-header">
+                        <div class="row" style="margin-left: 1%;">
+                            <div class="col-1" style="padding: 0; display: flex; align-items: center;">
+                                <img src="{{blog.author.profile_pic.url}}" class="img-thumbnail rounded-circle"
+                                    alt="..." style="padding: 0; margin: 0;">
+                            </div>
+                            <div class="col-10">
+                                <h5 class="m-0"> {{blog.author}}</h5>
+                                <p class="m-0"><small>Created on {{blog.created_at_local}}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <a href="/theblog/{{blog.id}}" style="text-decoration: none;"><h1 class="card-title" style="font-size: 40px">{{ blog.title }}</h1></a>
+                        <p class="card-text">{{ blog.content|safe }}</p>
+                        <p class="card-text"><small class="text-muted">{{blog.time_since_created}}</small></p>
+                        <a href="/theblog/{{blog.id}}#comments" class="btn btn-primary"><span class="fa fa-comment"></span> Comments </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        {% endfor %}
+
+    </section>
+
+</section>
+
+{% endblock body %}

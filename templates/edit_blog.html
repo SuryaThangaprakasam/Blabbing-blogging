@@ -1,0 +1,105 @@
+{% extends '_main.html' %}
+{% load static %}
+
+{% block title %}
+Blabbing | Edit your Blog
+{% endblock title %}
+
+{% block style %}
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<style>
+    #editor-container {
+        height: 300px;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+
+<section class="container main-section">
+
+    <!-- Heading Row -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2 class="mb-3">Blabbing Editor</h2>
+            <hr style="border: 1px solid rgb(126, 126, 126);">
+            {% include '_message.html' %}
+        </div>
+    </div>
+
+    <section class="container">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <h4 class="mb-3">Author: <em>{{user}}</em></h4>
+
+            <div class="mb-4">
+                <label for="title" class="form-label">Title: </label>
+                <input type="text" class="form-control title" name="title" id="title" value="{{the_blog.title}}">
+            </div>
+            
+            <div id="editor-container">{{the_blog.content|safe}}</div>
+            <input type="hidden" name="content" id="content">
+
+            <div class="m-4 col-md-">
+                <label for="photo" class="form-label">Blog Picture</label>
+                <div class="holder">
+                    <img class="my-2" id="imgPreview" src="{{the_blog.blog_img.url}}" alt="Add a Blog Picture" height="100px" />
+                </div>
+                <input type="file" id="photo" name="blog_img" class="form-control" value="{{the_blog.blog_img.url}}">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Save Blog</button>
+                <a class="btn btn-primary" href="/theblog/{{the_blog.id}}">Cancel</a>
+            </div>
+        </form>
+    </section>
+
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+
+<script>
+    // Initialize Quill editor
+    var quill = new Quill('#editor-container', {
+        theme: 'snow',
+        placeholder: 'Write your blog here...',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'blockquote'],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                ['clean']
+            ]
+        }
+    });
+
+    // Save content to hidden input field before form submission
+    document.querySelector('form').onsubmit = function () {
+        document.querySelector('#content').value = quill.root.innerHTML;
+    };
+
+    // Image preview
+    $(document).ready(() => {
+        const photoInp = $("#photo");
+        let file;
+
+        photoInp.change(function (e) {
+            file = this.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function (event) {
+                    $("#imgPreview")
+                        .attr("src", event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>
+
+{% endblock body%}

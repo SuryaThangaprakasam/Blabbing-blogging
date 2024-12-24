@@ -1,0 +1,124 @@
+{% extends '_main.html' %}
+
+{% block title %}
+Blabbing | Update Profile
+{% endblock title %}
+
+{% block body %}
+
+<section class="container main-section">
+
+    <!-- Heading Row -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2 class="mb-3">Update Profile</h2>
+            <hr style="border: 1px solid rgb(126, 126, 126);">
+            {% include '_message.html' %}
+        </div>
+    </div>
+
+    <!-- Form Section -->
+    <section class="container py-4">
+        <div class="row">
+            <!-- Main Form -->
+            <div class="col-md-8 col-lg-6">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="" class="form-label">First name:</label>
+                        {{form.first_name}}
+                    </div>
+                    <div class="mb-4">
+                        <label for="" class="form-label">Last name:</label>
+                        {{form.last_name}}
+                    </div>
+                    <div class="mb-4">
+                        <label for="" class="form-label">Username:</label>
+                        {{form.username}}
+                    </div>
+                    <div class="mb-4">
+                        <label for="" class="form-label">Email:</label>
+                        {{form.email}}
+                    </div>
+                    <div class="mb-4">
+                        <label for="" class="form-label">Contact Number:</label>
+                        {{form.contact}}
+                    </div>
+                    <div class="mb-4">
+                        <label for="" class="form-label">Profile Picture</label>
+                        <div class="holder">
+                            <img class="my-2" id="imgPreview" src="{{request.user.profile_pic.url}}" height="100px" />
+                        </div>
+                        {{form.profile_pic}}
+                    </div>
+
+                     <!-- Submit Buttons -->
+                    <div class="row">
+                        <div class="col-4">
+                            <button class="btn btn-primary" type="submit">Update</button>
+                        </div>
+                        <div class="col-4">
+                            <a href="/change_password" class="btn btn-secondary">Change Password</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Form error handlings -->
+            <div class="col-md-8 col-lg-6">
+                <div class="mb-4">
+                    {% if form.errors.username %}
+                    <label for="" class="text-danger">{{form.errors.username}}</label>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    {% if form.errors.email %}
+                    <label for="" class="text-danger">{{form.errors.email}}</label>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    {% if form.errors.password1 %}
+                    <label for="" class="text-danger">{{form.errors.password1}}</label>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    {% if form.errors.password2 %}
+                    <label for="" class="text-danger">{{form.errors.password2}}</label>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    {% if form.errors.profile_pic %}
+                    <label for="" class="text-danger">{{form.errors.profile_pic}}</label>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+
+<script>
+    $(document).ready(() => {
+        const photoInp = $("#photo");
+        let file;
+
+        photoInp.change(function (e) {
+            file = this.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function (event) {
+                    $("#imgPreview")
+                        .attr("src", event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>
+
+{% endblock body %}
